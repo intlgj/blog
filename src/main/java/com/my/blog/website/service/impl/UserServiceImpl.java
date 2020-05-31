@@ -53,7 +53,12 @@ public class UserServiceImpl implements IUserService {
         UserVoExample example = new UserVoExample();
         UserVoExample.Criteria criteria = example.createCriteria();
         criteria.andUsernameEqualTo(username);
-        long count = userDao.countByExample(example);
+        long count = 0;
+        try {
+            count = userDao.countByExample(example);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (count < 1) {
             throw new TipException("不存在该用户");
         }

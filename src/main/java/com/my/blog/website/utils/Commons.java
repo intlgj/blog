@@ -2,6 +2,7 @@ package com.my.blog.website.utils;
 
 
 import com.github.pagehelper.PageInfo;
+import com.my.blog.website.modal.Vo.CertificateVo;
 import com.my.blog.website.service.ISiteService;
 import com.vdurmont.emoji.EmojiParser;
 import com.my.blog.website.constant.WebConst;
@@ -198,6 +199,28 @@ public final class Commons {
      */
     public static String permalink(Integer cid, String slug) {
         return site_url("/article/" + (StringUtils.isNotBlank(slug) ? slug : cid.toString()));
+    }
+
+    /**
+     * 返回文章链接地址
+     *
+     * @param contents
+     * @return
+     */
+    public static String certificateLink(CertificateVo contents) {
+        return certificateLink("certificate",contents.getCid(), contents.getSlug());
+    }
+
+
+    /**
+     * 返回证件文件链接地址
+     *  @param contentType
+     * @param cid
+     * @param slug
+     * @return
+     */
+    public static String certificateLink(String contentType,Integer cid, String slug) {
+        return site_url("/"+contentType+"/" + (StringUtils.isNotBlank(slug) ? slug : cid.toString()));
     }
 
     /**

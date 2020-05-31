@@ -8,6 +8,7 @@ import com.my.blog.website.dto.Types;
 import com.my.blog.website.exception.TipException;
 import com.my.blog.website.modal.Bo.ArchiveBo;
 import com.my.blog.website.modal.Bo.RestResponseBo;
+import com.my.blog.website.modal.Vo.CertificateVo;
 import com.my.blog.website.modal.Vo.CommentVo;
 import com.my.blog.website.modal.Vo.MetaVo;
 import com.my.blog.website.service.IMetaService;
@@ -122,6 +123,34 @@ public class IndexController extends BaseController {
         completeArticle(request, contents);
         updateArticleHit(contents.getCid(), contents.getHits());
         return this.render("post");
+    }
+
+    /**
+     * 防伪编码页面
+     *
+     * @param request 请求
+     * @param cid     文章主键
+     * @return
+     */
+    @GetMapping(value = {"certificate/{cid}", "certificate/{cid}.html"})
+    public String getCertificate(HttpServletRequest request, @PathVariable String cid) {
+        request.setAttribute("is_post", true);
+        CertificateVo certificateVo = new CertificateVo();
+        certificateVo.setCid(Integer.valueOf(cid));
+        request.setAttribute("certificate", certificateVo);
+        return this.render("certificate");
+    }
+
+    /**
+     * 防伪文章页(预览)
+     *
+     * @param request 请求
+     * @param cid     文章主键
+     * @return
+     */
+    @GetMapping(value = {"certificate/{cid}/preview", "certificate/{cid}.html"})
+    public String certificatePreview(HttpServletRequest request, @PathVariable String cid) {
+        return this.render("certificate");
     }
 
     /**
@@ -341,7 +370,7 @@ public class IndexController extends BaseController {
      * @param chits
      */
     @Transactional(rollbackFor = TipException.class)
-    private void updateArticleHit(Integer cid, Integer chits) {
+    public void updateArticleHit(Integer cid, Integer chits) {
         Integer hits = cache.hget("article", "hits");
         if (chits == null) {
             chits = 0;

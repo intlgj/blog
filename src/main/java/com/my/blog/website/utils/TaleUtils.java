@@ -149,6 +149,9 @@ public class TaleUtils {
         return properties;
     }
 
+    public static void main(String[] args) {
+        System.out.println(MD5encode("adminadmin"));
+    }
     /**
      * md5加密
      *
